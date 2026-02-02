@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libarty Electronics</title>
+<link rel="icon" type="image/x-icon" href="./accets/favicone.png">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+body { background:#fff; }
+.logo{ height:60px; width:auto; }
+.header-icons img{ width:26px; height:26px; }
+.cart-card { border:1px solid #e6e6e6; border-radius:8px; overflow:hidden; transition: box-shadow .2s; }
+.cart-card:hover{ box-shadow:0 6px 18px rgba(0,0,0,0.08); }
+.cart-card img{ width:100%; height:140px; object-fit:contain; background:#f8f9fa; }
+.nav-badge{ font-size:12px; }
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="container-fluid border-bottom py-2">
+  <div class="row align-items-center">
+
+    <!-- LOGO -->
+    <div class="col-lg-2 col-md-3 col-6">
+      <img src="./accets/Logo1.png" class="logo img-fluid" alt="Logo">
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="col-lg-6 col-md-6 col-12 my-2 my-md-0">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for products">
+        <button class="btn btn-outline-secondary">🔍</button>
+      </div>
+    </div>
+
+    <!-- ICONS RIGHT -->
+    <div class="col-lg-4 col-md-3 col-6 d-flex justify-content-end">
+      <div class="header-icons">
+        <a href="cart.html" class="position-relative me-2" id="cartLink" title="View Cart">
+          <img src="./icons/shopping-cart.svg" alt="Cart">
+          <span id="cartCount" class="badge bg-danger rounded-pill" style="position:absolute; top:-6px; right:-6px; font-size:10px; display:none;">0</span>
+        </a>
+        <a href="likes.html" class="position-relative">
+          <img src="./icons/heart.svg" alt="Wishlist">
+        </a>
+        <div class="dropdown">
+          <img src="./icons/user.svg" alt="User" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="cart.html">Cart</a></li>
+            <li><a class="dropdown-item" href="likes.html">Likes</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- NAVIGATION -->
+<div class="container-fluid py-2 border-bottom">
+  <div class="container d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center gap-4">
+      <button class="btn btn-warning">All Categories</button>
+      <nav class="d-flex gap-3">
+        <a href="index.html" class="text-decoration-none text-dark">Home</a>
+        <!-- <a href="#" class="text-decoration-none text-dark">Shop</a> -->
+        <!-- <a href="#" class="text-decoration-none text-dark">Mega menu</a>
+        <a href="#" class="text-decoration-none text-dark">Pages</a> -->
+        <a href="#" class="text-decoration-none text-dark">Account</a>
+        <a href="cart.html" class="text-decoration-none text-dark active">Cart</a>
+        <a href="likes.html" class="text-decoration-none text-dark active">Likes</a>
+      </nav>
+    </div>
+
+  </div>
+</div>
+
+<!-- Cart Section -->
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Shopping Cart</h3>
+    <div>
+      <button class="btn btn-sm btn-outline-secondary" id="clearCart">Clear Cart</button>
+      <button class="btn btn-sm btn-primary ms-2" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <div class="row g-3" id="cartList">
+    <!-- cart items inserted by JS -->
+  </div>
+
+  <div id="noCartMsg" class="text-center text-muted mt-4" style="display:none;">
+    <p class="mb-0">Your cart is empty. Add products to the cart.</p>
+  </div>
+
+  <div class="mt-4 text-end">
+    <h5>Total: <span id="cartTotal">$0.00</span></h5>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const CART_KEY = 'libarty_cart';
+function getCart(){ try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch(e){ return []; } }
+function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+
+const cartList = document.getElementById('cartList');
+const cartCount = document.getElementById('cartCount');
+const cartCountBadge = document.getElementById('cartCountBadge');
+const noCartMsg = document.getElementById('noCartMsg');
+const cartTotalEl = document.getElementById('cartTotal');
+
+function formatPrice(p){ p = parseFloat(p) || 0; return '$' + p.toFixed(2); }
+
+function calcTotal(items){ return items.reduce((s,i)=> s + (parseFloat(i.price.replace(/[^0-9.-]+/g,'')) || 0) * (i.qty || 1), 0); }
+
+function renderCart(items){
+  cartList.innerHTML = '';
+  if(!items.length){ noCartMsg.style.display = 'block'; cartCount.textContent = '0'; cartCountBadge.textContent='0'; cartTotalEl.textContent = formatPrice(0); return; }
+  noCartMsg.style.display = 'none';
+  cartCount.textContent = items.length; cartCountBadge.textContent = items.length;
+  items.forEach(item=>{
+    const col = document.createElement('div'); col.className='col-12';
+    col.innerHTML = `
+      <div class="cart-card d-flex gap-3 p-3 align-items-center">
+        <img src="${item.img}" alt="${item.name}" style="width:120px; height:100px; object-fit:contain; background:#fff;">
+        <div class="flex-grow-1">
+          <h6 class="mb-1">${item.name}</h6>
+          <div class="text-muted">${item.price}</div>
+          <div class="mt-2 d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-outline-secondary qty-dec" data-id="${item.id}">-</button>
+            <span class="mx-2">Qty: <strong class="item-qty">${item.qty || 1}</strong></span>
+            <button class="btn btn-sm btn-outline-secondary qty-inc" data-id="${item.id}">+</button>
+            <button class="btn btn-sm btn-danger ms-3 remove-btn" data-id="${item.id}">Remove</button>
+          </div>
+        </div>
+        <div class="text-end">
+          <div class="fw-bold">${formatPrice((parseFloat(item.price.replace(/[^0-9.-]+/g,''))||0) * (item.qty||1))}</div>
+        </div>
+      </div>`;
+    cartList.appendChild(col);
+  });
+  cartTotalEl.textContent = formatPrice(calcTotal(items));
+}
+
+function setup(){
+  let items = getCart();
+  renderCart(items);
+
+  cartList.addEventListener('click', e=>{
+    if(e.target.matches('.remove-btn')){
+      const id = e.target.dataset.id;
+      items = items.filter(x=>x.id!==id);
+      saveCart(items); renderCart(items);
+    }
+    if(e.target.matches('.qty-inc')){
+      const id = e.target.dataset.id; items = items.map(x=> x.id===id ? {...x, qty:(x.qty||1)+1} : x); saveCart(items); renderCart(items);
+    }
+    if(e.target.matches('.qty-dec')){
+      const id = e.target.dataset.id; items = items.map(x=> x.id===id ? {...x, qty: Math.max(1,(x.qty||1)-1)} : x); saveCart(items); renderCart(items);
+    }
+  });
+
+  document.getElementById('clearCart').addEventListener('click', ()=>{ items = []; saveCart(items); renderCart(items); });
+
+  document.getElementById('checkoutBtn').addEventListener('click', ()=>{ alert('Proceed to checkout — this is a demo.'); });
+
+  // ensure header count shows
+  const badge = document.getElementById('cartCount'); if(badge) badge.textContent = getCart().length;
+}
+
+setup();
+</script>
+</body>
+</html>

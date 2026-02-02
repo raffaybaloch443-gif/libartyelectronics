@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .super-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .super-btn {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .super-btn button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .super-btn img {
+            width: 30px;
+            height: 30px;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        
+        .super-btn img:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+        
+        .icons {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .icons img {
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+        
+        .icons img:hover {
+            transform: scale(1.2);
+            opacity: 0.8;
+        }
+        
+        .carousel {
+            margin-top: 20px;
+        }
+        
+        .carousel-item {
+            height: 400px;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-item img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="super-nav">
+        <div class="super-btn">
+            <button><img src="./user.svg" alt=""></button>
+            <button><img src="./shopping-cart.svg" alt=""></button>
+            
+            
+        </div>
+        <div class="nav-img"></div>
+        <div class="btn">
+            <a href="">About</a>
+            <a href="">brands</a>
+            <a href="">Taligram</a>
+            <a href="">About</a>
+        </div>
+    </div>
+
+    <!-- SLIDER/CAROUSEL -->
+    <div id="carouselSlider" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselSlider" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#carouselSlider" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#carouselSlider" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#carouselSlider" data-bs-slide-to="3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="" alt="Slide 3">
+            </div>
+            <div class="carousel-item">
+                <img src="" alt="Slide 4">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
