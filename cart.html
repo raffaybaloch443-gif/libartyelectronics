@@ -108,7 +108,6 @@ function saveCart(items){ localStorage.setItem(CART_KEY, JSON.stringify(items));
 
 const cartList = document.getElementById('cartList');
 const cartCount = document.getElementById('cartCount');
-const cartCountBadge = document.getElementById('cartCountBadge');
 const noCartMsg = document.getElementById('noCartMsg');
 const cartTotalEl = document.getElementById('cartTotal');
 
@@ -118,9 +117,14 @@ function calcTotal(items){ return items.reduce((s,i)=> s + (parseFloat(i.price.r
 
 function renderCart(items){
   cartList.innerHTML = '';
-  if(!items.length){ noCartMsg.style.display = 'block'; cartCount.textContent = '0'; cartCountBadge.textContent='0'; cartTotalEl.textContent = formatPrice(0); return; }
+  if(!items.length){
+    noCartMsg.style.display = 'block';
+    if(cartCount) cartCount.textContent = '0';
+    cartTotalEl.textContent = formatPrice(0);
+    return;
+  }
   noCartMsg.style.display = 'none';
-  cartCount.textContent = items.length; cartCountBadge.textContent = items.length;
+  if(cartCount) cartCount.textContent = items.length;
   items.forEach(item=>{
     const col = document.createElement('div'); col.className='col-12';
     col.innerHTML = `
@@ -173,6 +177,5 @@ function setup(){
 
 setup();
 </script>
-<script src="cart.js"></script>
 </body>
 </html>

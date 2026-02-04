@@ -43,7 +43,10 @@ body { background:#fff; }
           <img src="./icons/shopping-cart.svg" alt="Cart">
           <span id="cartCountHeader" class="badge bg-danger rounded-pill" style="position:absolute; top:-6px; right:-6px; font-size:10px; display:none;">0</span>
         </a>
-        <a href="likes.html"><img src="./icons/heart.svg" alt="Wishlist"></a>
+        <a href="likes.html" class="position-relative">
+          <img src="./icons/heart.svg" alt="Wishlist">
+          <span id="likesCount" class="badge bg-danger rounded-pill" style="position:absolute; top:-6px; right:-6px; font-size:10px; display:none;">0</span>
+        </a>
         <div class="dropdown">
           <img src="./icons/user.svg" alt="User" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
           <ul class="dropdown-menu">
@@ -109,9 +112,13 @@ const noLikesMsg = document.getElementById('noLikesMsg');
 
 function renderLikes(items){
   likesList.innerHTML='';
-  if(!items.length){ noLikesMsg.style.display='block'; likesCount.textContent='0'; return; }
+  if(!items.length){
+    noLikesMsg.style.display='block';
+    if(likesCount){ likesCount.textContent='0'; likesCount.style.display='none'; }
+    return;
+  }
   noLikesMsg.style.display='none';
-  likesCount.textContent = items.length;
+  if(likesCount){ likesCount.textContent = items.length; likesCount.style.display='inline-block'; }
   items.forEach(item=>{
     const col = document.createElement('div'); col.className='col-lg-3 col-md-4 col-sm-6';
     col.innerHTML = `
