@@ -15,6 +15,32 @@ body { background:#fff; }
 .like-card img{ width:100%; height:180px; object-fit:contain; background:#f8f9fa; }
 .like-btn{ background:transparent; border:none; color:#dc3545; font-size:20px; }
 .nav-badge{ font-size:12px; }
+
+
+/* Categories dropdown (details/summary) */
+.categories-dropdown{
+    position: relative;
+    z-index: 2000;
+}
+.categories-dropdown > summary{
+    list-style: none;
+    cursor: pointer;
+}
+.categories-dropdown > summary::-webkit-details-marker{
+    display: none;
+}
+.categories-dropdown > .dropdown-menu{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 6px;
+    z-index: 2001;
+}
+.categories-dropdown[open] > .dropdown-menu{
+    display: block;
+}
+
 </style>
 </head>
 <body>
@@ -64,7 +90,18 @@ body { background:#fff; }
 <div class="container-fluid py-2 border-bottom">
   <div class="container d-flex align-items-center justify-content-between">
     <div class="d-flex align-items-center gap-4">
-      <button class="btn btn-warning">All Categories</button>
+      <details class="categories-dropdown">
+        <summary class="btn btn-warning">All Categories</summary>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">HP</a></li>
+          <li><a class="dropdown-item" href="#">Dell</a></li>
+          <li><a class="dropdown-item" href="#">Dawlance</a></li>
+          <li><a class="dropdown-item" href="#">Vivo</a></li>
+          <li><a class="dropdown-item" href="#">Samsing</a></li>
+          <li><a class="dropdown-item" href="#">Apple</a></li>
+          <li><a class="dropdown-item" href="#">Oreant</a></li>
+        </ul>
+      </details>
       <nav class="d-flex gap-3">
         <a href="index.html" class="text-decoration-none text-dark">Home</a>
         <!-- <a href="#" class="text-decoration-none text-dark">Shop</a> -->
